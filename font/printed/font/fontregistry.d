@@ -200,6 +200,13 @@ private:
                 paths ~= p ~ `\Microsoft\Windows\Fonts`;
             }
         }
+        version(OSX)
+        {
+            if (paths.length == 0)
+            {
+                paths ~= "/System/Library/Fonts";
+            }
+        }
         return paths;
     }
 
