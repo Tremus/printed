@@ -13,7 +13,6 @@ import std.uni;
 import std.string: format;
 import std.math: abs;
 import std.typecons: Tuple;
-import standardpaths;
 
 import printed.font.opentype;
 
@@ -191,21 +190,18 @@ private:
     /// Get a list of system font directories
     static private string[] getFontDirectories()
     {
-        string[] paths = standardPaths(StandardPath.fonts);
+        string[] paths;
         version(Windows)
         {
-            string[] appdata = standardPaths(StandardPath.data);
-            foreach(p; appdata)
-            {
-                paths ~= p ~ `\Microsoft\Windows\Fonts`;
-            }
+            paths ~= p ~ `\Microsoft\Windows\Fonts`;
         }
         version(OSX)
         {
-            if (paths.length == 0)
-            {
-                paths ~= "/System/Library/Fonts";
-            }
+            paths ~= "/System/Library/Fonts";
+            // NOTE: including the paths below will throw this exception
+            // "error: /Library/Fonts/DSEG14ClassicMini-BoldItalic.ttf: No such file or directory"
+            // paths ~= "/Library/Fonts";
+            // paths ~= "~/Library/Fonts";
         }
         return paths;
     }
