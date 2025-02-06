@@ -2,6 +2,7 @@ static import std.file;
 import std.stdio;
 import std.conv;
 import std.format;
+import std.algorithm;
 
 import printed.canvas;
 import printed.flow;
@@ -45,8 +46,18 @@ int main(string[] args)
             }
             else if (arg == "--html")
             {
-                ++i;
-                htmlPath = args[i];
+                if (i + 1 < args.length)
+                {
+                    if (endsWith(args[i], ".html"))
+                    {
+                        ++i;
+                        htmlPath = args[i];
+                    }
+                }
+                if (htmlPath == null)
+                {
+                    htmlPath = "output.html";
+                }
             }
             else
             {
